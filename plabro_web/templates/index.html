@@ -1,0 +1,95 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Plabro</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="{% static "lib/bootstrap/dist/css/bootstrap.min.css" %}"/>
+    <link rel="stylesheet" href="{% static "css/application.css" %}"/>
+  </head>
+<body>
+      <div class="row navigation" style="background-color:black;height:50px;width:100%;margin-top:-10px;margin-left:-10px;position:fixed">
+          <div class="col-sm-4 plabro-header"style=" margin-top:4px;margin-left:50px;height:85%">
+          <a class="plabro-logo" href="#"><img src="http://plabro.com/images/logo_plabro.png"style="height:100%"></a>
+          </div>
+
+          <div class="col-sm-6" style="margin-top:5px;margin-left:10%;text-align:right">
+            <p id="total-count"style="color:white;margin-top:10px;">0 Results</p>
+          </div>
+      </div>
+
+    <table id="records-table" class="table table-striped loading" style="margin-top:50px">
+      <thead>
+      </thead>
+      <tbody>
+        <tr class="loading-row"><td>Loading...</td></tr>
+        <tr class="load-more hide"><td>More</td></tr>
+      </tbody>
+    </table>
+
+    <script type="template" id="head-template">
+      <tr>
+        <% $.each(fields, function () { %>
+          <th>
+            <%= this.name %>
+          </th>
+        <% }) %>
+      </tr>
+      <tr class="filters">
+        <% $.each(fields, function () { %>
+          <th class="<% if (this.noSearch) { %>no-search<% } %>"
+              data-type="<% if (this.type) { %><%= this.type %><% } else { %>search<% } %>">
+            <% if (!this.noSearch) { %>
+              <% if (this.type === "range") { %>
+                <div class="dropdown">
+                  <button class="btn dropdown-toggle" type="button" data-toggle="dropdown">
+                    <span class="value">Select Range</span>
+                    <span class="caret"></span>
+                  </button>
+                  <ul class="dropdown-menu" data-filter-name="<%= this.value %>">
+                    <li>
+                      <input class="form-control" type="text"
+                             placeholder="From" name="from"/>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <input class="form-control" type="text"
+                             placeholder="To" name="to"/>
+                    </li>
+                    <li class="divider"></li>
+                    <li>
+                      <a class="btn btn-primary apply-filter" href="#">Apply</a>
+                    </li>
+                  </ul>
+                </div>
+              <% } else { %>
+              <input class="form-control filter" type="text"
+                   name="<%= this.value %>"
+                   placeholder="Search"/>
+              <% } %>
+            <% } %>
+          </th>
+        <% }) %>
+      </tr>
+    </script>
+
+    <script type="template" id="body-template">
+      <% $.each(records, function (index, record) { %>
+      <tr class="record">
+        <% $.each(record, function () { %>
+        <td><%= this %></td>
+        <% }) %>
+      </tr>
+      <% }) %>
+    </script>
+
+    </script>
+
+    <script src="{% static "lib/jquery/dist/jquery.min.js" %}"></script>
+    <script src="{% static "lib/underscore/underscore-min.js" %}"></script>
+    <script src="{% static "lib/bootstrap/dist/js/bootstrap.min.js" %}"></script>
+    <script src="{% static "js/application.js" %}"></script>
+  </body>
+</html>

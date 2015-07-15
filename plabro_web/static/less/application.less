@@ -1,0 +1,60 @@
+html {
+
+  width: 100%;
+  height: 100%;
+}
+
+body {
+
+  width: 100%;
+  height: 100%;
+  padding: 10px;
+
+  &> h3.brand {
+
+    text-align: center;
+  }
+
+  #total-count {
+
+    text-align: center;
+  }
+
+  #records-table {
+
+    thead {
+
+      text-align: center;
+    }
+
+    tbody {
+
+      tr.loading-row, tr.load-more {
+
+        text-align: center;
+        cursor: pointer;
+      }
+
+      tr.loading-row {
+
+        display: none;
+      }
+    }
+  }
+
+  #records-table.loading {
+
+    tbody {
+
+      tr.loading-row {
+
+        display: table-row;
+      }
+
+      tr.load-more {
+
+        display: none;
+      }
+    }
+  }
+}

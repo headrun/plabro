@@ -1,0 +1,12 @@
+*.swp
+*.swo
+*.swn
+*.swm
+*.pyc
+bin/*
+include/*
+lib/*
+db.sqlite3
+node_modules
+.DS_Store
+plabro_web/static/lib/*
