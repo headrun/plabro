@@ -23,7 +23,7 @@ HOST = "localhost"
 table1 = "insert into %s"
 QUERY = "(sk, title, text, address, status, project_society, price, rent, posted_on, square_feet_price, area, landmark, type_of_ownership, configuration, contact_details, contact_number, url, modified_at, created_at) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), now()) on duplicate key update modified_at=now(), contact_number=%s"
 
-QUERY_X = 'insert into proptiger (sk, builder_id, property_id, builder_name, project_name, city, lattitude, longitude, possessionDate, price_per_unit, address, no_of_balconies, no_of_bathrooms, no_of_bedrooms, no_of_study_rooms, is_sold_out, maxprice, minprice, average_price_per_unit, prop_size, prop_type, image, builder_url, prop_url, project_url, created_at, modified_at) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), now()) on duplicate key update modified_at = now();'
+QUERY_X = 'insert into proptiger (sk, builder_id, property_id, builder_name, project_name, city, suburb, lattitude, longitude, possessionDate, price_per_unit, address, no_of_balconies, no_of_bathrooms, no_of_bedrooms, no_of_study_rooms, is_sold_out, maxprice, minprice, average_price_per_unit, prop_size, prop_type, image, builder_url, prop_url, project_url, created_at, modified_at) values (%s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, %s, now(), now()) on duplicate key update modified_at = now(), suburb=%s;'
 
 class JuicerPipeline(object):
 	def __init__(self):
@@ -54,7 +54,8 @@ class JuicerPipeline(object):
 			
 				values = (	sk, str(item['builder_id']), str(item['other_data']['property_id']),
 							item['title'],
-							item['other_data']['prop_name'], item['city'], str(item['lattitude']), str(item['longitude']),
+							item['other_data']['prop_name'], item['city'], item['suburb'],
+							str(item['lattitude']), str(item['longitude']),
 							item['possessionDate'], str(item['other_data']['price_per_unit']), 
 							item['address'], str(item['other_data']['no_of_balconies']),
 							str(item['other_data']['no_of_bathrooms']),
@@ -65,7 +66,7 @@ class JuicerPipeline(object):
 							str(item['other_data']['minprice']), 
 							str(item['average_per_unit_price']), str(item['other_data']['prop_size']),
 							item['other_data']['prop_type'], item['image'], item['builder_url'],
-							item['other_data']['prop_url'], item['project_url'])
+							item['other_data']['prop_url'], item['project_url'], item['suburb'])
 
 				self.cursor.execute(QUERY_X, values)
 				self.conn.commit()
@@ -73,9 +74,3 @@ class JuicerPipeline(object):
 			print traceback.format_exc()
 	
 		return item
-
-
-	'''
-	def close_spider(self, spider):
-    	self._send_items()
-	'''
